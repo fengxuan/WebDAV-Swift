@@ -36,10 +36,10 @@ public struct WebDAVFile: Identifiable, Codable, Equatable, Hashable {
               let date = WebDAVFile.rfc1123Formatter.date(from: dateString),
 //              let id = properties["fileid"].element?.text,
               let sizeString = properties["size"].element?.text,
-              let size = Int(sizeString),
+              //let size = Int(sizeString),
               let etag = properties["getetag"].element?.text else { return nil }
         let id = properties["fileid"].element?.text.isEmpty == false ? properties["fileid"].element?.text : "abc"
-
+        let size = Int(sizeString.isEmpty ? "0" : sizeString) ?? 0
         let isDirectory = properties["getcontenttype"].element?.text == nil
         
         if let decodedPath = path.removingPercentEncoding {

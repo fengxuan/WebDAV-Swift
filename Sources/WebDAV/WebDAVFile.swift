@@ -38,7 +38,7 @@ public struct WebDAVFile: Identifiable, Codable, Equatable, Hashable {
 //              let sizeString = properties["size"].element?.text,
               //let size = Int(sizeString),
               let etag = properties["getetag"].element?.text else { return nil }
-        let id = properties["fileid"].element?.text.isEmpty == false ? properties["fileid"].element?.text : "abc"
+        let id = properties["fileid"].element?.text.isEmpty == false ? properties["fileid"].element?.text : randomId(8)
         let sizeString = properties["size"].element?.text
         let size: Int
         if sizeString?.isEmpty == true {
@@ -110,4 +110,18 @@ public struct WebDAVFile: Identifiable, Codable, Equatable, Hashable {
         isDirectory ? fileName : fileURL.deletingPathExtension().lastPathComponent
     }
     
+}
+
+
+func randomId(_ length: Int) -> String {
+    let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    var result = ""
+
+    for _ in 0..<length {
+        if let randomCharacter = letters.randomElement() {
+            result.append(randomCharacter)
+        }
+    }
+
+    return result
 }

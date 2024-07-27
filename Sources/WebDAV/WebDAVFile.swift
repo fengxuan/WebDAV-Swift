@@ -34,10 +34,12 @@ public struct WebDAVFile: Identifiable, Codable, Equatable, Hashable {
         guard var path = xml["href"].element?.text,
               let dateString = properties["getlastmodified"].element?.text,
               let date = WebDAVFile.rfc1123Formatter.date(from: dateString),
-              let id = properties["fileid"].element?.text,
+//              let id = properties["fileid"].element?.text,
               let sizeString = properties["size"].element?.text,
               let size = Int(sizeString),
               let etag = properties["getetag"].element?.text else { return nil }
+        let id = properties["fileid"].element?.text.isEmpty == false ? properties["fileid"].element?.text : "abc"
+
         let isDirectory = properties["getcontenttype"].element?.text == nil
         
         if let decodedPath = path.removingPercentEncoding {
@@ -52,7 +54,7 @@ public struct WebDAVFile: Identifiable, Codable, Equatable, Hashable {
             path.removeFirst()
         }
         
-        self.init(path: path, id: id, isDirectory: isDirectory, lastModified: date, size: size, etag: etag)
+        self.init(path: path, id: id!, isDirectory: isDirectory, lastModified: date, size: size, etag: etag)
     }
     
     //MARK: Static

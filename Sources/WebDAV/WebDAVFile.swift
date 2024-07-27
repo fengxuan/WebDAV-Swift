@@ -34,9 +34,6 @@ public struct WebDAVFile: Identifiable, Codable, Equatable, Hashable {
         guard var path = xml["href"].element?.text,
               let dateString = properties["getlastmodified"].element?.text,
               let date = WebDAVFile.rfc1123Formatter.date(from: dateString),
-//              let id = properties["fileid"].element?.text,
-//              let sizeString = properties["size"].element?.text,
-              //let size = Int(sizeString),
               let etag = properties["getetag"].element?.text else { return nil }
         let id = properties["fileid"].element?.text.isEmpty == false ? properties["fileid"].element?.text : randomId(8)
         let sizeString = properties["size"].element?.text
